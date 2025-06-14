@@ -73,7 +73,7 @@ body {
 
 /* Results Box */
 .results-box {
-  max-width: 800px;
+  width: 600px;
   padding: 20px;
   background-color: #1f1f1f;
   border-radius: 8px;
@@ -169,9 +169,10 @@ body {
 
 .activity-title {
   color: #177ddc;
-  margin: 0 0 4px 0;
-  font-size: 18px;
+  margin: 0 0 8px 0;
+  font-size: 22px;
   font-weight: bold;
+  line-height: 1.2;
 }
 
 .activity-name {
@@ -225,6 +226,21 @@ body {
   padding: 8px;
   border-radius: 4px;
   font-size: 13px;
+}
+
+.ticket-info div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ticket-info a {
+  color: #ffa940;
+  text-decoration: underline;
+}
+
+.ticket-info a:hover {
+  color: #ffb84d;
 }
 
 /* JSON Fallback */

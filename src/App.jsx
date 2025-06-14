@@ -65,7 +65,6 @@ function App() {
       )
 
       console.log('API Response:', response.data)
-      console.log('API Response:', response.data?.agentReasoning)
 
       // Extract Tourguide entry from agentReasoning
       let tourguideData = null;
@@ -98,6 +97,8 @@ function App() {
   }
 
   const renderItinerary = (itinerary) => {
+    console.log('lol', itinerary);
+
     if (!Array.isArray(itinerary)) return null;
 
     return itinerary.map((day, dayIndex) => (
@@ -113,16 +114,16 @@ function App() {
             <Card
               key={activityIndex}
               className="activity-card"
-              bodyStyle={{padding: '16px'}}
+              styles={{body: {padding: '16px'}}}
             >
               <div className="activity-content">
                 {/* Activity Header */}
                 <div className="activity-header">
                   <div className="activity-title-container">
-                    {/* Title */}
-                    {activity.title && (
+                    {/* Title - now using location */}
+                    {activity.location && (
                       <h3 className="activity-title">
-                        {activity.title}
+                        {activity.location}
                       </h3>
                     )}
                     {/* Activity Name */}
@@ -135,14 +136,6 @@ function App() {
                     {activity.time}
                   </span>
                 </div>
-
-                {/* Location */}
-                {activity.location && (
-                  <div className="activity-detail location">
-                    <EnvironmentOutlined />
-                    <span className="activity-detail-text">{activity.location}</span>
-                  </div>
-                )}
 
                 {/* Description */}
                 {activity.description && (
@@ -158,7 +151,37 @@ function App() {
                 {activity.ticket_info && (
                   <div className="ticket-info">
                     <TagOutlined style={{marginTop: '2px'}} />
-                    <span>{activity.ticket_info}</span>
+                    <div>
+                      <div>
+                        Price: {typeof activity.ticket_info === 'string'
+                          ? activity.ticket_info
+                          : activity.ticket_info.price}
+                      </div>
+                      {typeof activity.ticket_info === 'object' && activity.ticket_info.link && (
+                        <div>
+                          <a
+                            href={activity.ticket_info.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{color: '#ffa940', textDecoration: 'underline'}}
+                          >
+                            Book tickets
+                          </a>
+                        </div>
+                      )}
+                      {activity.booking_link && (
+                        <div>
+                          <a
+                            href={activity.booking_link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{color: '#ffa940', textDecoration: 'underline'}}
+                          >
+                            Booking link
+                          </a>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 )}
               </div>
@@ -187,8 +210,8 @@ function App() {
         >
           <Form.Item
             name="dateRange"
-            label={<span style={{color: '#fff'}}>Travel Dates</span>}
-            rules={[{required: true, message: 'Please select your travel dates'}]}
+            label={<span style={{color: '#fff'}}>Activity Dates</span>}
+            rules={[{required: true, message: 'Please select your activity dates'}]}
           >
             <RangePicker style={{width: '100%'}} />
           </Form.Item>
@@ -220,7 +243,7 @@ function App() {
 
           <Form.Item>
             <Button type="primary" htmlType="submit" block loading={loading}>
-              Generate Travel Plan
+              Generate Activity Plan
             </Button>
           </Form.Item>
         </Form>
@@ -228,7 +251,7 @@ function App() {
 
       {/* Results Box - Always present but conditionally filled */}
       <div className="results-box">
-        <h2 className="results-title">Travel Plan</h2>
+        <h2 className="results-title">Activity Plan</h2>
 
         {loading && (
           <div className="loading-container">
@@ -247,8 +270,8 @@ function App() {
 
         {result && !loading && (
           <div>
-            {result.itinerary ? (
-              renderItinerary(result.itinerary)
+            {result.tour_itinerary ? (
+              renderItinerary(result.tour_itinerary)
             ) : (
               <div className="json-container">
                 {typeof result === 'string' ? result : JSON.stringify(result, null, 2)}
@@ -259,7 +282,7 @@ function App() {
 
         {!result && !loading && !error && (
           <div className="placeholder-container">
-            Click "Generate Travel Plan" to see your itinerary here.
+            Click "Generate Activity Plan" to see your itinerary here.
           </div>
         )}
       </div>
