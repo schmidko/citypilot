@@ -1,0 +1,4 @@
+- Use acync/await and no callbacks
+- functions over classes
+- Use Javascript ES6
+- use flexbox for all css layoutingdd
