@@ -78,6 +78,9 @@ function App() {
       let parsedResult = null;
       if (tourguideData && tourguideData.messages) {
         try {
+          console.log('pooooooo', tourguideData.messages[0]);
+
+          tourguideData.messages = tourguideData.messages[0].replace('tourItinerary', 'tour_itinerary');
           parsedResult = JSON.parse(tourguideData.messages);
           console.log('Parsed messages:', parsedResult);
         } catch (parseError) {
@@ -271,7 +274,21 @@ function App() {
         {result && !loading && (
           <div>
             {result.tour_itinerary ? (
-              renderItinerary(result.tour_itinerary)
+              <div>
+                {renderItinerary(result.tour_itinerary)}
+                <div className="book-activities-container">
+                  <Button
+                    type="primary"
+                    size="large"
+                    onClick={() => {
+                      // TODO: Implement booking functionality
+                      console.log('Book activities clicked');
+                    }}
+                  >
+                    Book Activities
+                  </Button>
+                </div>
+              </div>
             ) : (
               <div className="json-container">
                 {typeof result === 'string' ? result : JSON.stringify(result, null, 2)}
